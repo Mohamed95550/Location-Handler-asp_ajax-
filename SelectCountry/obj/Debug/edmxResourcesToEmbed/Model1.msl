@@ -1,0 +1,31 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="dbLocationModelStoreContainer" CdmEntityContainer="dbLocationEntities">
+    <EntitySetMapping Name="cities">
+      <EntityTypeMapping TypeName="dbLocationModel.city">
+        <MappingFragment StoreEntitySet="cities">
+          <ScalarProperty Name="cityId" ColumnName="cityId" />
+          <ScalarProperty Name="cityName" ColumnName="cityName" />
+          <ScalarProperty Name="departementId" ColumnName="departementId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="countries">
+      <EntityTypeMapping TypeName="dbLocationModel.country">
+        <MappingFragment StoreEntitySet="countries">
+          <ScalarProperty Name="countryId" ColumnName="countryId" />
+          <ScalarProperty Name="countryName" ColumnName="countryName" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="departements">
+      <EntityTypeMapping TypeName="dbLocationModel.departement">
+        <MappingFragment StoreEntitySet="departements">
+          <ScalarProperty Name="departementId" ColumnName="departementId" />
+          <ScalarProperty Name="departementName" ColumnName="departementName" />
+          <ScalarProperty Name="countryId" ColumnName="countryId" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

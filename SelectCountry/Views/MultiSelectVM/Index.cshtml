@@ -1,0 +1,46 @@
+﻿@model IEnumerable<SelectCountry.Models.MultiSelectVM>
+   
+<style type="text/css">
+     table tr{
+        background-color:darkslategray;
+        color:lavender;
+
+    }
+    table tr:hover{
+        background-color:black;
+        color:white;
+        cursor:pointer;
+    }
+   
+</style>
+
+ <div class="container">
+        <table class="table table-responsive">
+            <thead style="background-color:black">
+                <tr>
+                    <th>Country ID</th>
+                    <th>Country Name</th>
+                    <th>Departement ID</th>
+                    <th>Departement Name</th>
+                    <th>City ID</th>
+                    <th>City Name</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td>@item.countryId</td>
+                        <td>@item.countryName</td>
+                        <td>@item.departementId</td>
+                        <td>@item.departementName</td>
+                        <td>@item.cityId</td>
+                        <td>@item.cityName</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+    </div>
+
+

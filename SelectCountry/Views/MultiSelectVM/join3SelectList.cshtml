@@ -1,0 +1,81 @@
+﻿@model SelectCountry.Models.SelectVm
+
+
+<h3><span class="glyphicon glyphicon-plus"></span> Add new customers :</h3>
+<div class="container" style="background-color:darkslategray;padding-top:30px;width:auto;max-width:550px;">
+    @using (Html.BeginForm())
+    {
+        @*<div style=" margin-bottom: 10px;">
+                @Html.TextBoxFor(Model => Model.id_city, new { @class = "form-control", @PlaceHolder = "&#xf007; Enter your Firstname"})
+                @Html.ValidationMessageFor(model => model.id_city, "", new { @class = "text-danger" })
+            </div>
+            <div style=" margin-bottom: 10px;">
+                @Html.TextBoxFor(Model => Model.id_city, new { @class = "form-control", @PlaceHolder = "Enter your email Lastname" })
+                @Html.ValidationMessageFor(model => model.id_city, "", new { @class = "text-danger" })
+            </div>
+
+             <div style=" margin-bottom: 10px;">
+                @Html.TextBoxFor(Model => Model.id_city, new { @class = "form-control", @PlaceHolder = "Enter your email adress" })
+                @Html.ValidationMessageFor(model => model.id_city, "", new { @class = "text-danger" })
+            </div>*@
+        <div class="row">
+            <div class="col-md-6">
+                <input type="text" class="form-control" style=" margin-bottom: 10px;" placeholder="Enter your Full Name" />
+                <input type="text" class="form-control" style=" margin-bottom: 10px;" placeholder="Enter your email adress" />
+                <input type="text" class="form-control" style=" margin-bottom: 10px;" placeholder="Enter your age" />
+
+            </div>
+            <div class="col-md-6">
+                <div style=" margin-bottom: 10px;">
+                    @Html.DropDownListFor(Model => Model.id_country, ViewBag.listofcountries as SelectList, "-- Select your Country--", new { @class = "form-control" })
+                </div>
+                <div style=" margin-bottom: 10px;">
+                    @Html.DropDownListFor(Model => Model.id_departement, new SelectList(""), "-- Select your Departement--", new { @class = "form-control" })
+                </div>
+                <div style=" margin-bottom: 10px;">
+                    @Html.DropDownListFor(Model => Model.id_city, new SelectList(""), "-- Select your City--", new { @class = "form-control" })
+                </div>
+                <input type="submit" style=" margin-bottom: 10px;" value="Add new" class="btn btn-success col-md-5" />
+                <div class="col-md-2"></div>
+                <input type="reset" style=" margin-bottom: 10px;" value="reset" class="btn btn-warning col-md-5" />
+
+            </div>
+        </div>
+    }
+</div>
+
+<div id="load"></div>
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+            $(document).ready(function () {
+                // Load Departementname by Countryname
+                $("#id_country").change(function () {
+                     $("#load").append('<img src="/fonts/loading.gif" />');
+                    $.get("/MultiSelectVM/getDepListByCountry", { countryId: $("#id_country").val() }, function (data) {
+                        $("#id_departement").empty();
+                        $("#id_city").empty();
+                         $("#id_departement").append("<option value=''>-- Select your Departement --</option>");
+                        $.each(data, function (index, row) {
+                            $("#id_departement").append("<option value='" + row.departementId + "'>" + row.departementName + "</option>");
+                            $("#load").empty();
+                        });
+                    });
+
+
+
+                })
+
+                // Load Citiesname by departementname
+                $("#id_departement").change(function () {
+                    $.get("/MultiSelectVM/getCitiesListByDep", { depId: $("#id_departement").val() }, function (data) {
+                        $("#id_city").empty();
+                        $.each(data, function (index, row) {
+                            $("#id_city").append("<option value='" + row.idCity + "'>" + row.nameCity + "</option>");
+                        });
+                    });
+                })
+
+            });
+
+</script>
+

@@ -1,0 +1,67 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="dbLocationModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="city">
+    <Key>
+      <PropertyRef Name="cityId" />
+    </Key>
+    <Property Name="cityId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="cityName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="departementId" Type="Int32" />
+    <NavigationProperty Name="departement" Relationship="Self.FK_cities_departements" FromRole="cities" ToRole="departements" />
+  </EntityType>
+  <EntityType Name="country">
+    <Key>
+      <PropertyRef Name="countryId" />
+    </Key>
+    <Property Name="countryId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="countryName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="departements" Relationship="Self.FK_departements_countries" FromRole="countries" ToRole="departements" />
+  </EntityType>
+  <EntityType Name="departement">
+    <Key>
+      <PropertyRef Name="departementId" />
+    </Key>
+    <Property Name="departementId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="departementName" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+    <Property Name="countryId" Type="Int32" />
+    <NavigationProperty Name="cities" Relationship="Self.FK_cities_departements" FromRole="departements" ToRole="cities" />
+    <NavigationProperty Name="country" Relationship="Self.FK_departements_countries" FromRole="departements" ToRole="countries" />
+  </EntityType>
+  <Association Name="FK_cities_departements">
+    <End Role="departements" Type="Self.departement" Multiplicity="0..1" />
+    <End Role="cities" Type="Self.city" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="departements">
+        <PropertyRef Name="departementId" />
+      </Principal>
+      <Dependent Role="cities">
+        <PropertyRef Name="departementId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_departements_countries">
+    <End Role="countries" Type="Self.country" Multiplicity="0..1" />
+    <End Role="departements" Type="Self.departement" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="countries">
+        <PropertyRef Name="countryId" />
+      </Principal>
+      <Dependent Role="departements">
+        <PropertyRef Name="countryId" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="dbLocationEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="cities" EntityType="Self.city" />
+    <EntitySet Name="countries" EntityType="Self.country" />
+    <EntitySet Name="departements" EntityType="Self.departement" />
+    <AssociationSet Name="FK_cities_departements" Association="Self.FK_cities_departements">
+      <End Role="departements" EntitySet="departements" />
+      <End Role="cities" EntitySet="cities" />
+    </AssociationSet>
+    <AssociationSet Name="FK_departements_countries" Association="Self.FK_departements_countries">
+      <End Role="countries" EntitySet="countries" />
+      <End Role="departements" EntitySet="departements" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

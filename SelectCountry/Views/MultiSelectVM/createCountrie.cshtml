@@ -1,0 +1,39 @@
+﻿@model SelectCountry.Models.CreateCountrieVM
+
+@using (Html.BeginForm())
+{
+    <h1>Add Country</h1>
+
+    <input name="countryName" id="txt_CountryName" type="text" class="form-control" style=" margin-bottom: 10px;" placeholder="Enter a new country Name" /><div id="msg" style="color:red"></div>
+
+    <div id="div_addBtn"></div>
+}
+<script src="~/Scripts/jquery-3.4.1.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Load Departementname by Countryname
+        $("#txt_CountryName").change(function () {
+            $("#msg").append('Loading...');
+            $.get("/MultiSelectVM/IsExistingCountryName", { countryName: $("#txt_CountryName").val() }, function (data) {
+                $("#msg").empty();
+                $("#msg").text(data);
+
+                if ($("#msg").text() == "Valid Name") {
+                    $("#msg").empty();
+                    $("#div_addBtn").html("<input id='addCountryName' type='submit' value='Add Country' class='btn btn-success' />");
+                    var txt = $("#txt_CountryName").val();
+                    /*$("#addCountryName").click(function () {
+                        alert('Country ' + txt + ' created successfully!');
+                        $("#txt_CountryName").val('');
+                        //JSON.stringify({ x: 5, y: 6 })
+                    });*/
+                }
+                else { $("#div_addBtn").empty(); }
+
+
+
+            });
+        });
+    });
+
+</script>
